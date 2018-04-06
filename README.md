@@ -2,5 +2,5 @@
 A simple™ crypto asset ticker
 
 
-#Intructions
+# Instructions
 Hold a control key to move the window.
