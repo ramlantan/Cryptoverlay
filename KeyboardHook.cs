@@ -3,16 +3,16 @@ namespace Utilities
     using System;
     using System.Diagnostics;
     using System.Runtime.InteropServices;
-    using System.Windows;
     using System.Windows.Input;
-    using System.Windows.Interop;
 
     public class KeyboardHook : IDisposable
     {
         private const int WH_KEYBOARD_LL = 13;
         private const int WM_KEYDOWN = 0x0100;
+        private const int WM_KEYUP = 0x0101;
         private LowLevelKeyboardProc keyboardProc;
         private IntPtr hookId = IntPtr.Zero;
+        private bool pauseKeyProcessing = false;
 
         const UInt32 SWP_NOSIZE = 0x0001;
         const UInt32 SWP_NOMOVE = 0x0002;
@@ -32,10 +32,18 @@ namespace Utilities
         }
 
         public event EventHandler KeyCombinationPressed;
+        public event EventHandler KeyCombinationReleased;
 
         public void OnKeyCombinationPressed(EventArgs e)
         {
+            pauseKeyProcessing = true;
             KeyCombinationPressed?.Invoke(null, e);
+        }
+
+        public void OnKeyCombinationReleased(EventArgs e)
+        {
+            pauseKeyProcessing = false;
+            KeyCombinationReleased?.Invoke(null, e);
         }
 
         private IntPtr SetHook(LowLevelKeyboardProc proc)
@@ -54,31 +62,29 @@ namespace Utilities
         private IntPtr HookCallback(
             int nCode, IntPtr wParam, IntPtr lParam)
         {
-            if (nCode >= 0 && wParam == (IntPtr)WM_KEYDOWN)
+            if (nCode >= 0 && wParam == (IntPtr)WM_KEYDOWN && pauseKeyProcessing == false)
             {
                 int vkCode = Marshal.ReadInt32(lParam);
                 var keyPressed = KeyInterop.KeyFromVirtualKey(vkCode);
                 Trace.WriteLine(keyPressed);
-                if (keyPressed == SelectedKey && Keyboard.Modifiers == ModifierKeys.Control)
+                if (keyPressed == Key.LeftCtrl || keyPressed == Key.RightCtrl)
                 {
-                    Trace.WriteLine("Triggering Keyboard Hook");
+                    Trace.WriteLine("Triggering Keyboard pressed Hook");
                     OnKeyCombinationPressed(new EventArgs());
                 }
             }
+            if (nCode >= 0 && wParam == (IntPtr)WM_KEYUP)
+            {
+                int vkCode = Marshal.ReadInt32(lParam);
+                var keyPressed = KeyInterop.KeyFromVirtualKey(vkCode);
+                Trace.WriteLine(keyPressed);
+                if (keyPressed == Key.LeftCtrl || keyPressed == Key.RightCtrl)
+                {
+                    Trace.WriteLine("Triggering Keyboard released Hook");
+                    OnKeyCombinationReleased(new EventArgs());
+                }
+            }
             return CallNextHookEx(hookId, nCode, wParam, lParam);
-        }
-
-        public static void ActivateWindow(Window window)
-        {
-            var interopHelper = new WindowInteropHelper(window);
-            var currentForegroundWindow = GetForegroundWindow();
-            var thisWindowThreadId = GetWindowThreadProcessId(interopHelper.Handle, IntPtr.Zero);
-            var currentForegroundWindowThreadId = GetWindowThreadProcessId(currentForegroundWindow, IntPtr.Zero);
-            AttachThreadInput(currentForegroundWindowThreadId, thisWindowThreadId, true);
-            SetWindowPos(interopHelper.Handle, new IntPtr(0), 0, 0, 0, 0, SWP_NOSIZE | SWP_NOMOVE | SWP_SHOWWINDOW);
-            AttachThreadInput(currentForegroundWindowThreadId, thisWindowThreadId, false);
-            window.Show();
-            window.Activate();
         }
 
         [DllImport("user32.dll", CharSet = CharSet.Auto, SetLastError = true)]
@@ -95,18 +101,5 @@ namespace Utilities
 
         [DllImport("kernel32.dll", CharSet = CharSet.Auto, SetLastError = true)]
         private static extern IntPtr GetModuleHandle(string lpModuleName);
-
-        [DllImport("user32.dll")]
-        public static extern bool SetWindowPos(IntPtr hWnd, IntPtr hWndInsertAfter, int X, int Y, int cx, int cy, uint uFlags);
-
-        [DllImport("user32.dll")]
-        private static extern IntPtr GetForegroundWindow();
-
-        [DllImport("user32.dll")]
-        private static extern uint GetWindowThreadProcessId(IntPtr hWnd, IntPtr ProcessId);
-
-        [DllImport("user32.dll")]
-        private static extern bool AttachThreadInput(uint idAttach, uint idAttachTo, bool fAttach);
     }
-
 }

@@ -3,8 +3,12 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:SimpleTicker"
         mc:Ignorable="d"
-        Title="Ticker" Height="50" Width="300" Background="White" Opacity="0.8" AllowsTransparency="True" WindowStyle="None" Topmost="True">
-    <Label x:Name="lblHello" Content="Hello this is a long test of label text" HorizontalAlignment="Left" Margin="0,0,0,0" VerticalAlignment="Top"/>
+        Title="MainWindow" Height="100" Width="300" AllowsTransparency="True" WindowStyle="None">
+    <Window.Background>
+        <SolidColorBrush Opacity="0.5" Color="Black"/>
+    </Window.Background>
+    <Canvas>
+        <Label x:Name="lblStatus" Content="Label" Canvas.Left="10" Canvas.Top="10" Foreground="White" RenderTransformOrigin="0.5,0.5"/>
+    </Canvas>
 </Window>
