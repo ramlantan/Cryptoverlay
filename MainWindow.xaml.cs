@@ -19,7 +19,7 @@ using System.Windows.Shapes;
 using System.Windows.Threading;
 using Utilities;
 
-namespace SimpleTicker
+namespace Cryptoverlay
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml

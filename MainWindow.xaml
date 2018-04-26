@@ -1,10 +1,10 @@
-﻿<Window x:Class="SimpleTicker.MainWindow"
+﻿<Window x:Class="Cryptoverlay.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
-        Title="MainWindow" Height="66" Width="411" AllowsTransparency="True" WindowStyle="None" ResizeMode="NoResize">
+        Title="Cryptoverlay" Height="66.372" Width="304.552" AllowsTransparency="True" WindowStyle="None" ResizeMode="NoResize" Icon="icon.ico">
     <Window.Background>
         <SolidColorBrush Opacity="0" Color="Black"/>
     </Window.Background>
@@ -16,27 +16,32 @@
         <Grid>
             <WrapPanel>
 
-                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center">
-                    <Label x:Name="LblTokenName" Content="STK" Foreground="White" Padding="3,0,2,0" HorizontalContentAlignment="Center" VerticalAlignment="Center"/>
-                    <Label x:Name="LblTokenValue" Content="$0.10" Foreground="White" Padding="0" HorizontalContentAlignment="Center" VerticalAlignment="Center"/>
-                    <Label x:Name="LblTokenChange" FontSize="9" Content="-3.42%" Foreground="#FFFF5555" Margin="3,1,3,0" Padding="2,0,2,1" HorizontalContentAlignment="Center" VerticalAlignment="Center">
-                        <Label.Background>
-                            <SolidColorBrush Opacity="0.25" Color="Black"/>
-                        </Label.Background>
-                    </Label>
-                </StackPanel>
+                <Border BorderThickness="5" CornerRadius="3">
+                    <!--<Border.Background>
+                        <SolidColorBrush Opacity="1" Color="Black"/>
+                    </Border.Background>-->
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center">
+                        <Label x:Name="LblTokenName" Content="STK" Foreground="White" Padding="3,0,2,0" HorizontalContentAlignment="Center" VerticalAlignment="Center"/>
+                        <Label x:Name="LblTokenValue" Content="$0.10" Foreground="White" Padding="0" HorizontalContentAlignment="Center" VerticalAlignment="Center"/>
+                        <Label x:Name="LblTokenChange" FontSize="9" Content="-3.42%" Foreground="#FFFF5555" Margin="3,1,3,0" Padding="2,0,3,1" HorizontalContentAlignment="Center" VerticalAlignment="Center">
+                            <Label.Background>
+                                <SolidColorBrush Opacity="0.25" Color="Black"/>
+                            </Label.Background>
+                        </Label>
+                    </StackPanel>
+                </Border>
 
                 <StackPanel Orientation="Horizontal">
                     <Label x:Name="LblTokenName2" Content="TRAC" Foreground="White" Padding="3,0,2,0" HorizontalContentAlignment="Center" VerticalAlignment="Center"/>
                     <Label x:Name="LblTokenValue2" Content="$0.30" Foreground="White" Padding="0" HorizontalContentAlignment="Center" VerticalAlignment="Center"/>
-                    <Label x:Name="LblTokenChange2" FontSize="9" Content="+13.28%" Foreground="LightGreen" Margin="3,1,3,0" Padding="2,0,2,1" HorizontalContentAlignment="Center" VerticalAlignment="Center">
+                    <Label x:Name="LblTokenChange2" FontSize="9" Content="+13.28%" Foreground="LightGreen" Margin="3,1,3,0" Padding="2,0,3,1" HorizontalContentAlignment="Center" VerticalAlignment="Center">
                         <Label.Background>
                             <SolidColorBrush Opacity="0.25" Color="Black"/>
                         </Label.Background>
                     </Label>
                 </StackPanel>
 
-                <Label x:Name="LblStatus" Content="Label" Foreground="White"/>
+                <Label x:Name="LblStatus" Content="Label" Foreground="White" Padding="3,0,2,0" HorizontalContentAlignment="Center" VerticalAlignment="Center"/>
 
             </WrapPanel>
 
