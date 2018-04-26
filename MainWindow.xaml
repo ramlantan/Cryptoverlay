@@ -4,11 +4,48 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
-        Title="MainWindow" Height="100" Width="300" AllowsTransparency="True" WindowStyle="None">
+        Title="MainWindow" Height="66" Width="411" AllowsTransparency="True" WindowStyle="None" ResizeMode="NoResize">
     <Window.Background>
-        <SolidColorBrush Opacity="0.5" Color="Black"/>
+        <SolidColorBrush Opacity="0" Color="Black"/>
     </Window.Background>
-    <Canvas>
-        <Label x:Name="lblStatus" Content="Label" Canvas.Left="10" Canvas.Top="10" Foreground="White" RenderTransformOrigin="0.5,0.5"/>
-    </Canvas>
+
+    <Border CornerRadius="3">
+        <Border.Background>
+            <SolidColorBrush Opacity="0.6" Color="Black"/>
+        </Border.Background>
+        <Grid>
+            <WrapPanel>
+
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center">
+                    <Label x:Name="LblTokenName" Content="STK" Foreground="White" Padding="3,0,2,0" HorizontalContentAlignment="Center" VerticalAlignment="Center"/>
+                    <Label x:Name="LblTokenValue" Content="$0.10" Foreground="White" Padding="0" HorizontalContentAlignment="Center" VerticalAlignment="Center"/>
+                    <Label x:Name="LblTokenChange" FontSize="9" Content="-3.42%" Foreground="#FFFF5555" Margin="3,1,3,0" Padding="2,0,2,1" HorizontalContentAlignment="Center" VerticalAlignment="Center">
+                        <Label.Background>
+                            <SolidColorBrush Opacity="0.25" Color="Black"/>
+                        </Label.Background>
+                    </Label>
+                </StackPanel>
+
+                <StackPanel Orientation="Horizontal">
+                    <Label x:Name="LblTokenName2" Content="TRAC" Foreground="White" Padding="3,0,2,0" HorizontalContentAlignment="Center" VerticalAlignment="Center"/>
+                    <Label x:Name="LblTokenValue2" Content="$0.30" Foreground="White" Padding="0" HorizontalContentAlignment="Center" VerticalAlignment="Center"/>
+                    <Label x:Name="LblTokenChange2" FontSize="9" Content="+13.28%" Foreground="LightGreen" Margin="3,1,3,0" Padding="2,0,2,1" HorizontalContentAlignment="Center" VerticalAlignment="Center">
+                        <Label.Background>
+                            <SolidColorBrush Opacity="0.25" Color="Black"/>
+                        </Label.Background>
+                    </Label>
+                </StackPanel>
+
+                <Label x:Name="LblStatus" Content="Label" Foreground="White"/>
+
+            </WrapPanel>
+
+            <Button x:Name="btnSettings" Width="25" Height="20" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,25,0" BorderThickness="0">
+                <Button.Background>
+                    <ImageBrush ImageSource="settingsicon.png" Stretch="None"/>
+                </Button.Background>
+            </Button>
+        </Grid>
+    </Border>
+
 </Window>

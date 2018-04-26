@@ -36,7 +36,6 @@ namespace SimpleTicker
         private KeyboardHook kh;
 
         public int RefreshTimerInterval { get; set; } = 6;
-        private int counter = 0;
 
         public MainWindow()
         {
@@ -44,6 +43,7 @@ namespace SimpleTicker
 
             //Top = 100;
             //Left = -400;
+            btnSettings.Visibility = Visibility.Hidden;
 
             // Set up global keyboard hook
             kh = new KeyboardHook();
@@ -66,7 +66,6 @@ namespace SimpleTicker
 
         private void TopmostRefreshTimer_Tick(object sender, EventArgs e)
         {
-            lblStatus.Content = counter++;
             // Set form to display topmost every timer refresh, a workaround for forcing the ticker to always display above the taskbar...
             // Topmost is set to false and back to true, as re-setting Topmost to true when already true does not work.
             Topmost = false;
@@ -75,19 +74,20 @@ namespace SimpleTicker
 
         protected override void OnMouseLeftButtonDown(MouseButtonEventArgs e)
         {
-            lblStatus.Content = "dragging";
+            LblStatus.Content = "dragging";
             base.OnMouseLeftButtonDown(e);
 
             // Begin dragging the window
             DragMove();
 
-            lblStatus.Content = "stopped dragging";
+            LblStatus.Content = "stopped dragging";
         }
 
         private void GlobalKeyDown(object sender, EventArgs e)
         {
-            lblStatus.Content = "GlobalKeyDown called";
-           
+            LblStatus.Content = "GlobalKeyDown called";
+            ResizeMode = ResizeMode.CanResizeWithGrip;
+            btnSettings.Visibility = Visibility.Visible;
             // Set window to allow clicks
             uint ex_style = GetWindowLong(new WindowInteropHelper(this).Handle, GWL.ExStyle);
             SetWindowLong(new WindowInteropHelper(this).Handle, GWL.ExStyle, ex_style & WS_EX_LAYERED);
@@ -95,8 +95,9 @@ namespace SimpleTicker
 
         private void GlobalKeyUp(object sender, EventArgs e)
         {
-            lblStatus.Content = "GlobalKeyUp called";
-
+            LblStatus.Content = "GlobalKeyUp called";
+            ResizeMode = ResizeMode.NoResize;
+            btnSettings.Visibility = Visibility.Hidden;
             // Set window back to transparent (click-through)
             uint ex_style = GetWindowLong(new WindowInteropHelper(this).Handle, GWL.ExStyle);
             SetWindowLong(new WindowInteropHelper(this).Handle, GWL.ExStyle, ex_style | WS_EX_LAYERED | WS_EX_TRANSPARENT);
