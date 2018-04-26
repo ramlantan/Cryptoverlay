@@ -1,2 +1,2 @@
-# SimpleTicker
-A simple™ crypto asset ticker
+# Cryptoverlay
+A simple (looking) crypto asset ticker
